@@ -9,8 +9,7 @@ import sys
 import os
 
 
-flags.DEFINE_string('dir', '/Users/Shangtong/GoogleDrive/Paper/phd_thesis', 'base directory')
-flags.DEFINE_string('bibfile', 'ref', 'input file')
+flags.DEFINE_string('bibfile', '/Users/Shangtong/GoogleDrive/Paper/phd_thesis/test.bib', 'the .bib file to be processed')
 flags.DEFINE_integer('num_workers', 5, 'parallelization')
 flags.DEFINE_bool('interactive', True, 'manually choose a candidate when there are two candidates')
 flags.DEFINE_string('format', 'bibtex', 'format of the file')
@@ -48,6 +47,7 @@ def update_entry_wrapper(entry):
     for _ in range(5):
         try:
             result = update_entry(entry)
+            break
         except:
             continue
     result = result or dict(succeeded=None, failed=entry, info=None, pending=None)
@@ -91,7 +91,7 @@ def update_entry(entry):
 
 def rebib():
     parser = bibtex.Parser()
-    bib_data = parser.parse_file(os.path.join(FLAGS.dir, f'{FLAGS.bibfile}.bib'))
+    bib_data = parser.parse_file(FLAGS.bibfile)
     entries = [bib_data.entries[key] for key in bib_data.entries]
     if FLAGS.num_workers > 1:
         pool = mp.Pool(processes=FLAGS.num_workers)
@@ -120,12 +120,17 @@ def rebib():
             untouched.append(res['failed'].to_string(FLAGS.format))
         if res['info'] is not None:
             print(res['info'])
-    with open(os.path.join(FLAGS.dir, f'{FLAGS.bibfile}_updated.bib'), 'w') as f:
+    dir, file = os.path.split(FLAGS.bibfile)
+    file, _ = os.path.splitext(file)
+    with open(os.path.join(dir, f'{file}_updated.bib'), 'w') as f:
         for entry in updated:
             f.write(entry)
-    with open(os.path.join(FLAGS.dir, f'{FLAGS.bibfile}_untouched.bib'), 'w') as f:
+            f.write('\n')
+    with open(os.path.join(dir, f'{file}_untouched.bib'), 'w') as f:
         for entry in untouched:
             f.write(entry)
+            f.write('\n')
+
 
 if __name__ == '__main__':
     rebib()
