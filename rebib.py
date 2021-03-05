@@ -9,7 +9,7 @@ import sys
 import os
 
 
-flags.DEFINE_string('bibfile', '/Users/Shangtong/GoogleDrive/Paper/phd_thesis/test.bib', 'the .bib file to be processed')
+flags.DEFINE_string('bibfile', 'ref.bib', 'the .bib file to process')
 flags.DEFINE_integer('num_workers', 5, 'parallelization')
 flags.DEFINE_bool('interactive', True, 'manually choose a candidate when there are two candidates')
 flags.DEFINE_string('format', 'bibtex', 'format of the file')
