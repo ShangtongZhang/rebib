@@ -1,7 +1,7 @@
 # Rebib
 TLDR: This script retrieves information from DBLP to update your BibTex files.
 
-```python --bibfile xxx.bib```
+```python rebib.py --bibfile xxx.bib```
 
 1. It first parses the bib entries in `xxx.bib`.
 1. For each entry, it queries DBLP using the title and the first author to retrieve the accurate bibliographical
