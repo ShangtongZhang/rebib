@@ -13,8 +13,13 @@ flags.DEFINE_string('bibfile', 'ref.bib', 'the .bib file to process')
 flags.DEFINE_integer('num_workers', 5, 'parallelization')
 flags.DEFINE_bool('interactive', True, 'manually choose a candidate when there are two candidates')
 flags.DEFINE_string('format', 'bibtex', 'format of the file')
+flags.DEFINE_bool('allow_duplicate', False, 'allow duplicated bib entry')
 flags.FLAGS(sys.argv)
 FLAGS = flags.FLAGS
+
+if FLAGS.allow_duplicate:
+    import pybtex.errors
+    pybtex.errors.set_strict_mode(False)
 
 
 def filter_fields(pub):
