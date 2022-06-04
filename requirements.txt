@@ -2,3 +2,4 @@ numpy
 pybtex==0.24.0
 bibtex-dblp==0.5
 bibtexparser==1.2.0
+absl-py==1.0.0
